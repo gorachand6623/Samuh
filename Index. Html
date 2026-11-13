@@ -1044,4 +1044,7 @@
           link.click();
       }
 
-      initSavingsUI(
+      initSavingsUI();
+</script>
+</body>
+</html>
