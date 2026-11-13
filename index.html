@@ -1,0 +1,1050 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>समूह पासबुक एवं ऋण लेज़र रजिस्टर</title>
+    <style>
+      :root {
+          --primary: #1b4332;
+          --secondary: #2d6a4f;
+          --accent: #52b788;
+          --bg: #f4f6f9;
+          --card-bg: #ffffff;
+          --text: #212529;
+      }
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--bg);
+          color: var(--text);
+          margin: 0;
+          padding: 10px;
+      }
+      .container {
+          max-width: 1100px;
+          margin: auto;
+          background: var(--card-bg);
+          padding: 15px;
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      }
+      header {
+          text-align: center;
+          margin-bottom: 15px;
+          border-bottom: 2px solid var(--accent);
+          padding-bottom: 10px;
+      }
+      h2 {
+          color: var(--primary);
+          margin: 0;
+          font-size: 20px;
+      }
+      .date-badge {
+          background: #e8f5e9;
+          color: var(--primary);
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-weight: bold;
+          display: inline-block;
+          margin-top: 6px;
+          font-size: 13px;
+      }
+      .section-tabs {
+          display: flex;
+          gap: 6px;
+          margin-bottom: 15px;
+          border-bottom: 2px solid #dee2e6;
+          padding-bottom: 10px;
+          flex-wrap: wrap;
+      }
+      .tab-btn {
+          flex: 1;
+          min-width: 100px;
+          padding: 8px;
+          font-size: 12px;
+          font-weight: bold;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          background-color: #e9ecef;
+          color: #495057;
+          text-align: center;
+          transition: all 0.3s;
+      }
+      .tab-btn.active {
+          background-color: var(--primary);
+          color: white;
+          box-shadow: 0 4px 10px rgba(27, 67, 50, 0.3);
+      }
+      .section-content {
+          display: none;
+      }
+      .section-content.active {
+          display: block;
+      }
+      .form-box {
+          background: #f8f9fa;
+          border: 1px solid #dee2e6;
+          padding: 12px;
+          border-radius: 8px;
+          margin-bottom: 15px;
+      }
+      .form-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 10px;
+      }
+      .form-group {
+          flex: 1;
+          min-width: 180px;
+      }
+      label {
+          display: block;
+          font-size: 12.5px;
+          font-weight: bold;
+          margin-bottom: 4px;
+          color: #495057;
+      }
+      input, select, textarea {
+          width: 100%;
+          padding: 7px;
+          border: 1px solid #ced4da;
+          border-radius: 4px;
+          font-size: 13.5px;
+          box-sizing: border-box;
+      }
+      .btn-action {
+          background-color: #2b9348;
+          color: white;
+          border: none;
+          padding: 9px 15px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: bold;
+          width: 100%;
+      }
+      .btn-action:hover { background-color: #1b4332; }
+      .table-responsive {
+          width: 100%;
+          overflow-x: auto;
+          margin-bottom: 15px;
+      }
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          min-width: 650px;
+          background: #fff;
+      }
+      th, td {
+          border: 1px solid #ced4da;
+          padding: 7px;
+          text-align: center;
+          font-size: 13px;
+      }
+      th {
+          background-color: var(--primary);
+          color: white;
+          font-weight: 600;
+      }
+      tr:nth-child(even) {
+          background-color: #f9fbf9;
+      }
+      .passbook-card {
+          background: #fff;
+          border: 1px solid #cbd5e1;
+          padding: 12px;
+          border-radius: 8px;
+          margin-bottom: 12px;
+          border-left: 5px solid var(--secondary);
+      }
+      .summary-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 12px;
+          margin-bottom: 15px;
+      }
+      .summary-card {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          padding: 12px;
+          border-radius: 8px;
+          border-left: 5px solid var(--secondary);
+      }
+      .summary-title {
+          font-size: 12px;
+          color: #64748b;
+          margin-bottom: 4px;
+      }
+      .summary-val {
+          font-size: 17px;
+          font-weight: bold;
+          color: var(--primary);
+      }
+      .date-btn-box {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 10px;
+      }
+      .date-btn {
+          background-color: #e9ecef;
+          border: 1px solid #ced4da;
+          padding: 10px 14px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: bold;
+          color: var(--primary);
+          text-align: left;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 13.5px;
+      }
+      .date-btn:hover { background-color: var(--accent); color: white; }
+      .del-sm-btn {
+          background-color: #dc2626;
+          color: white;
+          border: none;
+          padding: 3px 6px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 11px;
+      }
+      .close-box-btn {
+          background-color: #dc2626;
+          color: white;
+          border: none;
+          padding: 4px 10px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+          font-weight: bold;
+          float: right;
+      }
+      .add-member-row {
+          margin-bottom: 10px;
+          display: flex;
+          gap: 10px;
+      }
+      .extra-btns {
+          display: flex;
+          gap: 10px;
+          margin-top: 15px;
+          flex-wrap: wrap;
+      }
+      .btn-excel { background-color: #059669; }
+      .btn-excel:hover { background-color: #047857; }
+      .btn-print { background-color: #2563eb; }
+      .btn-print:hover { background-color: #1d4ed8; }
+      .btn-wa { background-color: #25d366; }
+      .btn-wa:hover { background-color: #1ebe5d; }
+      .btn-backup { background-color: #7c3aed; }
+      .btn-backup:hover { background-color: #6d28d9; }
+
+      @media print {
+          body * {
+              visibility: hidden;
+          }
+          #reportSection, #reportSection * {
+              visibility: visible;
+          }
+          #reportSection {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+          }
+          .extra-btns, button {
+              display: none !important;
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h2>🤝 समूह पासबुक एवं ऋण लेज़र रजिस्टर</h2>
+        <div class="date-badge">🗓️ बैठक तिथि: हर महीने की 19 तारीख</div>
+      </header>
+
+      <div class="section-tabs">
+        <button
+          class="tab-btn active"
+          onclick="switchSection('savingsSection', event)"
+        >
+          📦 1. बचत
+        </button>
+        <button class="tab-btn" onclick="switchSection('loanSection', event)">
+          💰 2. ऋण पासबुक
+        </button>
+        <button class="tab-btn" onclick="switchSection('incomeSection', event)">
+          💵 3. ब्याज
+        </button>
+        <button class="tab-btn" onclick="switchSection('notesSection', event)">
+          📝 4. नोट्स
+        </button>
+        <button class="tab-btn" onclick="switchSection('reportSection', event)">
+          📊 5. कुल फंड
+        </button>
+      </div>
+
+      <!-- 1. बचत सेक्शन -->
+      <div id="savingsSection" class="section-content active">
+        <div class="form-box">
+          <h3 style="margin-top:0; color:var(--primary); font-size:15px;">
+            📦 तारीख-वार मासिक बचत जमा और सदस्य प्रबंधन
+          </h3>
+
+          <div class="add-member-row">
+            <input
+              type="text"
+              id="newMemberNameInput"
+              placeholder="नया सदस्य का नाम लिखें..."
+            />
+            <button
+              class="btn-action"
+              style="width: auto; padding: 6px 12px;"
+              onclick="addNewMember()"
+            >
+              ➕ सदस्य जोड़ें
+            </button>
+          </div>
+
+          <div class="form-row" style="margin-top: 10px;">
+            <div class="form-group">
+              <label>बैठक की तारीख चुनें:</label>
+              <input type="date" id="savingDate" value="2026-09-19" />
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>क्र.सं.</th>
+                  <th>सदस्य का नाम</th>
+                  <th>इस महीने की बचत (₹)</th>
+                  <th>हटाएं</th>
+                </tr>
+              </thead>
+              <tbody id="savingsTableBody"></tbody>
+            </table>
+          </div>
+          <button class="btn-action" onclick="saveSavings()">
+            💾 इस तारीख की बचत सेव करें
+          </button>
+        </div>
+
+        <div class="form-box">
+          <h4 style="margin-top:0; color:var(--secondary); font-size:14px;">
+            📅 तारीख के अनुसार बचत देखें और सुधारें:
+          </h4>
+          <div class="date-btn-box" id="savingDateButtons"></div>
+          <div id="savingDateDetails" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <!-- 2. ऋण सेक्शन -->
+      <div id="loanSection" class="section-content">
+        <div class="form-box">
+          <h3 style="margin-top:0; color:var(--primary); font-size:15px;">
+            💰 ऋण (शोध) लेना और जमा करना
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>सदस्य का नाम चुनें:</label>
+              <select
+                id="loanMemberSelect"
+                onchange="renderPassbookView()"
+              ></select>
+            </div>
+            <div class="form-group">
+              <label>तारीख चुनें:</label>
+              <input type="date" id="loanDate" value="2026-09-19" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>नया ऋण लिया (₹):</label>
+              <input type="number" id="loanTakenAmt" value="0" />
+            </div>
+            <div class="form-group">
+              <label>मूलधन जमा किया (₹):</label>
+              <input type="number" id="loanPaidAmt" value="0" />
+            </div>
+            <div class="form-group">
+              <label>ब्याज जमा किया (₹):</label>
+              <input type="number" id="interestPaidAmt" value="0" />
+            </div>
+          </div>
+          <button class="btn-action" onclick="saveLoanEntry()">
+            💾 ऋण पासबुक में प्रविष्टि करें
+          </button>
+        </div>
+
+        <div id="passbookContainer"></div>
+      </div>
+
+      <!-- 3. आय सेक्शन -->
+      <div id="incomeSection" class="section-content">
+        <div class="form-box">
+          <h3 style="margin-top:0; color:var(--primary); font-size:15px;">
+            💵 एकमुश्त ब्याज / आय जमा करें
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>तारीख चुनें:</label>
+              <input type="date" id="incomeDate" value="2026-09-19" />
+            </div>
+            <div class="form-group">
+              <label>कुल ब्याज / आय राशि (₹):</label>
+              <input type="number" id="incomeAmt" placeholder="जैसे: 7000" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>विवरण:</label>
+              <input
+                type="text"
+                id="incomeDesc"
+                placeholder="जैसे: पुराना और नया ब्याज जोड़ कर"
+              />
+            </div>
+          </div>
+          <button class="btn-action" onclick="saveIncomeEntry()">
+            💾 आय/ब्याज सुरक्षित करें
+          </button>
+        </div>
+
+        <div class="form-box">
+          <h4 style="margin-top:0; color:var(--secondary); font-size:14px;">
+            📜 जमा की गई आय/ब्याज का इतिहास:
+          </h4>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>तारीख</th>
+                  <th>विवरण</th>
+                  <th>रकम (₹)</th>
+                  <th>हटाएं</th>
+                </tr>
+              </thead>
+              <tbody id="incomeTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. नोट्स सेक्शन -->
+      <div id="notesSection" class="section-content">
+        <div class="form-box">
+          <h3 style="margin-top:0; color:var(--primary); font-size:15px;">
+            📝 बैठक के जरूरी नोट्स दर्ज करें
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>बैठक की तारीख:</label>
+              <input type="date" id="noteDate" value="2026-09-19" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>नोट्स / चर्चा विवरण:</label>
+              <textarea
+                id="noteText"
+                rows="4"
+                placeholder="आज की बैठक में क्या तय हुआ..."
+              ></textarea>
+            </div>
+          </div>
+          <button class="btn-action" onclick="saveMeetingNote()">
+            💾 नोट save करें
+          </button>
+        </div>
+
+        <div class="form-box">
+          <h4 style="margin-top:0; color:var(--secondary); font-size:14px;">
+            📜 सुरक्षित बैठक नोट्स:
+          </h4>
+          <div id="notesContainer"></div>
+        </div>
+      </div>
+
+      <!-- 5. रिपोर्ट सेक्शन -->
+      <div id="reportSection" class="section-content">
+        <h3 style="color:var(--primary); margin-top:0; font-size:15px;">
+          📊 समूह का कुल फंड एवं रिपोर्ट
+        </h3>
+
+        <div
+          class="summary-grid"
+          style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background: #e8f5e9; padding: 15px; border-radius: 8px; border: 1px solid #c8e6c9; margin-bottom: 20px;"
+        >
+          <div class="summary-card" style="background: white;">
+            <div class="summary-title">📦 कुल जमा बचत फंड</div>
+            <div class="summary-val" id="repTotalSavings">₹0</div>
+          </div>
+          <div
+            class="summary-card"
+            style="background: white; border-left-color: #2b9348;"
+          >
+            <div class="summary-title">💵 कुल प्राप्त ब्याज / आय</div>
+            <div class="summary-val" id="repTotalInterest">₹0</div>
+          </div>
+          <div
+            class="summary-card"
+            style="background: white; border-left-color: #d90429;"
+          >
+            <div class="summary-title">📤 बाजार में कुल बकाया ऋण</div>
+            <div class="summary-val" id="repTotalLoan">₹0</div>
+          </div>
+          <div
+            class="summary-card"
+            style="background: white; border-left-color: #0284c7;"
+          >
+            <div class="summary-title">📈 समूह का कुल फंड (बचत + ब्याज)</div>
+            <div class="summary-val" id="repTotalFund" style="color: #0284c7;">
+              ₹0
+            </div>
+          </div>
+          <div
+            class="summary-card"
+            style="background: white; border-left-color: #2563eb; grid-column: 1 / -1;"
+          >
+            <div class="summary-title">
+              💎 समूह का कुल उपलब्ध फंड (नकद/बैंक में शेष)
+            </div>
+            <div
+              class="summary-val"
+              id="repAvailableFund"
+              style="color: #2563eb;"
+            >
+              ₹0
+            </div>
+          </div>
+        </div>
+
+        <h4 style="color:var(--secondary); font-size:14px;">
+          सभी सदस्यों का सारांश:
+        </h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>क्र.सं.</th>
+                <th>सदस्य का नाम</th>
+                <th>कुल जमा बचत (₹)</th>
+                <th>बकाया ऋण (₹)</th>
+                <th>कुल दिया गया ब्याज (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="extra-btns">
+          <button class="btn-action btn-print" onclick="window.print()">
+            🖨️ संपूर्ण रिपोर्ट प्रिंट / PDF
+          </button>
+          <button class="btn-action btn-excel" onclick="exportToExcel()">
+            📥 Excel डाउनलोड
+          </button>
+          <button class="btn-action btn-backup" onclick="downloadBackup()">
+            💾 डेटा बैकअप डाउनलोड
+          </button>
+          <button
+            class="btn-action btn-wa"
+            style="background-color: #7c2d12;"
+            onclick="document.getElementById('restoreFile').click()"
+          >
+            📂 डेटा रीस्टोर करें
+          </button>
+          <input
+            type="file"
+            id="restoreFile"
+            style="display:none"
+            onchange="restoreBackup(event)"
+          />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let members = JSON.parse(localStorage.getItem("samuh_members_list")) || [
+          "Geeta Devi", "Dev Mandal", "Lakhta Devi", "Bibhek Mandal",
+          "Manju Mandal", "Radhika Mandal", "Kumalta Devi", "Archana Mandal"
+      ];
+      let db = JSON.parse(localStorage.getItem("samuh_master_local_db")) || { savings: [], loans: [], incomes: [], notes: [] };
+
+      function switchSection(secId, event) {
+          document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+          document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+          document.getElementById(secId).classList.add('active');
+          event.currentTarget.classList.add('active');
+          if(secId === 'loanSection') updateLoanDropdown();
+          if(secId === 'incomeSection') renderIncomeTable();
+          if(secId === 'notesSection') renderMeetingNotes();
+          if(secId === 'reportSection') generateReport();
+          if(secId === 'savingsSection') { initSavingsUI(); renderDateButtons(); }
+      }
+
+      function addNewMember() {
+          let nameInput = document.getElementById("newMemberNameInput");
+          let name = nameInput.value.trim();
+          if(!name) return alert("कृपया सदस्य का नाम लिखें!");
+          if(members.includes(name)) return alert("यह सदस्य पहले से सूची में है!");
+
+          members.push(name);
+          localStorage.setItem("samuh_members_list", JSON.stringify(members));
+          nameInput.value = "";
+          initSavingsUI();
+          alert("नया सदस्य जोड़ दिया गया है!");
+      }
+
+      function removeMember(index) {
+          if(confirm("क्या आप इस सदस्य को हटाना चाहते हैं?")) {
+              members.splice(index, 1);
+              localStorage.setItem("samuh_members_list", JSON.stringify(members));
+              initSavingsUI();
+          }
+      }
+
+      function updateMemberName(index, newName) {
+          members[index] = newName.trim();
+          localStorage.setItem("samuh_members_list", JSON.stringify(members));
+      }
+
+      function initSavingsUI() {
+          let tbody = document.getElementById("savingsTableBody");
+          if(!tbody) return;
+          tbody.innerHTML = "";
+          members.forEach((name, i) => {
+              tbody.innerHTML += `<tr>
+                  <td>${i + 1}</td>
+                  <td><input type="text" value="${name}" oninput="updateMemberName(${i}, this.value)"></td>
+                  <td><input type="number" class="savingInput" value="100" data-name="${name}"></td>
+                  <td><button class="del-sm-btn" onclick="removeMember(${i})">❌</button></td>
+              </tr>`;
+          });
+          renderDateButtons();
+      }
+
+      function saveSavings() {
+          let date = document.getElementById("savingDate").value;
+          let inputs = document.querySelectorAll(".savingInput");
+          let batchEntries = [];
+
+          inputs.forEach(inp => {
+              let name = inp.getAttribute("data-name");
+              let amt = parseFloat(inp.value) || 0;
+              if(amt > 0) batchEntries.push({ name, amt });
+          });
+
+          db.savings = db.savings.filter(s => s.date !== date);
+          db.savings.push({ date, entries: batchEntries });
+
+          localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+          alert("तारीख " + date + " की बचत सेव हो गई है!");
+          renderDateButtons();
+      }
+
+      function renderDateButtons() {
+          let container = document.getElementById("savingDateButtons");
+          if(!container) return;
+          container.innerHTML = "";
+
+          if(db.savings.length === 0) {
+              container.innerHTML = `<p style="color:#666; font-size:13px;">कोई रिकॉर्ड नहीं है।</p>`;
+              return;
+          }
+
+          let sortedSavings = [...db.savings].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          sortedSavings.forEach(s => {
+              let totalBatch = s.entries.reduce((sum, e) => sum + e.amt, 0);
+              let box = document.createElement("div");
+              box.style.display = "flex";
+              box.style.alignItems = "center";
+              box.style.gap = "8px";
+
+              let btn = document.createElement("button");
+              btn.className = "date-btn";
+              btn.style.flex = "1";
+              btn.innerHTML = `<span>📅 तारीख: ${s.date}</span> <b style="color:#2b9348;">कुल: ₹${totalBatch}</b>`;
+              btn.onclick = () => showSavingsByDate(s.date);
+
+              let delBtn = document.createElement("button");
+              delBtn.className = "del-sm-btn";
+              delBtn.textContent = "🗑️";
+              delBtn.onclick = () => deleteSavingsDate(s.date);
+
+              box.appendChild(btn);
+              box.appendChild(delBtn);
+              container.appendChild(box);
+          });
+      }
+
+      function deleteSavingsDate(date) {
+          if(confirm(`तारीख ${date} का डेटा हटाना चाहते हैं?`)) {
+              db.savings = db.savings.filter(s => s.date !== date);
+              localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+              renderDateButtons();
+              document.getElementById("savingDateDetails").innerHTML = "";
+          }
+      }
+
+      function showSavingsByDate(date) {
+          let record = db.savings.find(s => s.date === date);
+          let detailsDiv = document.getElementById("savingDateDetails");
+          if(!record) return;
+
+          let totalBatch = record.entries.reduce((sum, e) => sum + e.amt, 0);
+          let html = `<div class="passbook-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <h4 style="margin:0; color:var(--primary); font-size:14px;">🗓️ तारीख: ${date} (कुल: ₹${totalBatch})</h4>
+                  <button class="close-box-btn" onclick="document.getElementById('savingDateDetails').innerHTML=''">❌ बंद करें</button>
+              </div>
+              <ul style="margin:0; padding-left:15px; font-size:13px;">`;
+
+          record.entries.forEach(e => {
+              html += `<li><b>${e.name}:</b> ₹${e.amt}</li>`;
+          });
+
+          html += `</ul></div>`;
+          detailsDiv.innerHTML = html;
+      }
+
+      function updateLoanDropdown() {
+          let select = document.getElementById("loanMemberSelect");
+          if(!select) return;
+          select.innerHTML = "";
+          members.forEach(name => {
+              let opt = document.createElement("option");
+              opt.value = name;
+              opt.textContent = name;
+              select.appendChild(opt);
+          });
+          renderPassbookView();
+      }
+
+      function saveLoanEntry() {
+          let name = document.getElementById("loanMemberSelect").value;
+          let date = document.getElementById("loanDate").value;
+          let taken = parseFloat(document.getElementById("loanTakenAmt").value) || 0;
+          let paid = parseFloat(document.getElementById("loanPaidAmt").value) || 0;
+          let interest = parseFloat(document.getElementById("interestPaidAmt").value) || 0;
+
+          if(taken === 0 && paid === 0 && interest === 0) return alert("कृपया राशि दर्ज करें!");
+
+          db.loans.push({ id: Date.now(), date, name, taken, paid, interest });
+          localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+
+          alert("ऋण पासबुक अपडेट हो गई है!");
+          document.getElementById("loanTakenAmt").value = "0";
+          document.getElementById("loanPaidAmt").value = "0";
+          document.getElementById("interestPaidAmt").value = "0";
+          renderPassbookView();
+      }
+
+      function deleteLoanEntry(id) {
+          if(confirm("हटाना चाहते हैं?")) {
+              db.loans = db.loans.filter(l => l.id !== id);
+              localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+              renderPassbookView();
+          }
+      }
+
+      function renderPassbookView() {
+          let name = document.getElementById("loanMemberSelect").value;
+          let container = document.getElementById("passbookContainer");
+          if(!container) return;
+
+          let memberLoans = db.loans.filter(l => l.name === name);
+          let totalTaken = 0, totalPaid = 0, totalInterest = 0;
+          let runningBalance = 0;
+
+          let html = `<div class="passbook-card">
+              <h4 style="margin-top:0; color:var(--primary); font-size:14px;">📖 ${name} की ऋण पासबुक</h4>
+              <div class="table-responsive">
+                  <table>
+                      <thead>
+                          <tr style="background:#f1f3f5;">
+                              <th>तारीख</th>
+                              <th>ऋण लिया (₹)</th>
+                              <th>मूलधन जमा (₹)</th>
+                              <th>ब्याज जमा (₹)</th>
+                              <th>बाकी बकाया ऋण (₹)</th>
+                              <th>हटाएं</th>
+                          </tr>
+                      </thead>
+                      <tbody>`;
+
+          if(memberLoans.length === 0) {
+              html += `<tr><td colspan="6">कोई रिकॉर्ड नहीं है।</td></tr>`;
+          } else {
+              memberLoans.forEach(l => {
+                  totalTaken += l.taken;
+                  totalPaid += l.paid;
+                  totalInterest += (l.interest || 0);
+                  runningBalance = (totalTaken - totalPaid);
+                  if(runningBalance < 0) runningBalance = 0;
+
+                  html += `<tr>
+                      <td>${l.date}</td>
+                      <td style="color:red;">₹${l.taken}</td>
+                      <td style="color:green;">₹${l.paid}</td>
+                      <td style="color:#2b9348;">₹${l.interest || 0}</td>
+                      <td style="font-weight:bold; color:#d90429;">₹${runningBalance}</td>
+                      <td><button class="del-sm-btn" onclick="deleteLoanEntry(${l.id})">❌</button></td>
+                  </tr>`;
+              });
+          }
+
+          html += `</tbody></table></div>
+          <p style="font-size:13px;"><b>कुल ऋण लिया:</b> ₹${totalTaken} | <b>कुल मूलधन चुकाया:</b> ₹${totalPaid} | <b>कुल ब्याज जमा:</b> ₹${totalInterest}</p>
+          <p style="color:red; font-size:14px;"><b>अंतिम बाकी बकाया ऋण:</b> ₹${runningBalance}</p>
+
+          <div class="extra-btns">
+              <button class="btn-action btn-print" onclick="window.print()">🖨️ पासबुक प्रिंट / PDF</button>
+              <button class="btn-action btn-wa" onclick="shareOnWhatsApp('${name}', ${totalTaken}, ${totalPaid}, ${totalInterest}, ${runningBalance})">💬 व्हाट्सएप पर शेयर करें</button>
+          </div>`;
+
+          container.innerHTML = html;
+      }
+
+      function shareOnWhatsApp(name, taken, paid, interest, balance) {
+          let msg = `*समूह ऋण पासबुक विवरण*%0A` +
+                    `--------------------------------%0A` +
+                    `सदस्य का नाम: *${name}*%0A` +
+                    `कुल ऋण लिया: ₹${taken}%0A` +
+                    `कुल मूलधन चुकाया: ₹${paid}%0A` +
+                    `कुल ब्याज जमा: ₹${interest}%0A` +
+                    `*बाकी बकाया ऋण: ₹${balance}*%0A` +
+                    `--------------------------------%0A` +
+                    `समूह वित्तीय प्रबंधन रजिस्टर`;
+          window.open(`https://wa.me/?text=${msg}`, '_blank');
+      }
+
+      function downloadBackup() {
+          let dataObj = {
+              members: members,
+              db: db
+          };
+          let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataObj));
+          let dlAnchor = document.createElement('a');
+          dlAnchor.setAttribute("href", dataStr);
+          dlAnchor.setAttribute("download", "Samuh_Backup_" + new Date().toISOString().slice(0,10) + ".json");
+          document.body.appendChild(dlAnchor);
+          dlAnchor.click();
+          dlAnchor.remove();
+      }
+
+      function restoreBackup(event) {
+          let file = event.target.files[0];
+          if(!file) return;
+          let reader = new FileReader();
+          reader.onload = function(e) {
+              try {
+                  let parsed = JSON.parse(e.target.result);
+                  if(parsed.members && parsed.db) {
+                      members = parsed.members;
+                      db = parsed.db;
+                      localStorage.setItem("samuh_members_list", JSON.stringify(members));
+                      localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+                      alert("डेटा सफलतापूर्वक रीस्टोर (Restore) हो गया है!");
+                      location.reload();
+                  } else {
+                      alert("फाइल का फॉर्मेट सही नहीं है!");
+                  }
+              } catch(err) {
+                  alert("फाइल पढ़ने में त्रुटि हुई!");
+              }
+          };
+          reader.readAsText(file);
+      }
+
+      function saveIncomeEntry() {
+          let date = document.getElementById("incomeDate").value;
+          let amt = parseFloat(document.getElementById("incomeAmt").value) || 0;
+          let desc = document.getElementById("incomeDesc").value.trim() || "ब्याज / आय जमा";
+
+          if(amt <= 0) return alert("कृपया सही ब्याज/आय राशि दर्ज करें!");
+
+          if(!db.incomes) db.incomes = [];
+          db.incomes.push({ id: Date.now(), date, amt, desc });
+          localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+
+          document.getElementById("incomeAmt").value = "";
+          document.getElementById("incomeDesc").value = "";
+          renderIncomeTable();
+          alert("आय/ब्याज सुरक्षित हो गया है!");
+      }
+
+      function deleteIncomeEntry(id) {
+          if(confirm("इस प्रविष्टि को हटाना चाहते हैं?")) {
+              db.incomes = db.incomes.filter(inc => inc.id !== id);
+              localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+              renderIncomeTable();
+          }
+      }
+
+      function renderIncomeTable() {
+          let tbody = document.getElementById("incomeTableBody");
+          if(!tbody) return;
+          tbody.innerHTML = "";
+
+          if(!db.incomes || db.incomes.length === 0) {
+              tbody.innerHTML = `<tr><td colspan="4">कोई ब्याज/आय दर्ज नहीं है।</td></tr>`;
+              return;
+          }
+
+          db.incomes.forEach(inc => {
+              tbody.innerHTML += `<tr>
+                  <td>${inc.date}</td>
+                  <td>${inc.desc}</td>
+                  <td style="color:green; font-weight:bold;">₹${inc.amt}</td>
+                  <td><button class="del-sm-btn" onclick="deleteIncomeEntry(${inc.id})">❌</button></td>
+              </tr>`;
+          });
+      }
+
+      function saveMeetingNote() {
+          let date = document.getElementById("noteDate").value;
+          let text = document.getElementById("noteText").value.trim();
+
+          if(!text) return alert("कृपया नोट्स लिखें!");
+
+          if(!db.notes) db.notes = [];
+          db.notes.push({ id: Date.now(), date, text });
+          localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+
+          document.getElementById("noteText").value = "";
+          renderMeetingNotes();
+          alert("नोट्स save हो गया है!");
+      }
+
+      function deleteMeetingNote(id) {
+          if(confirm("इस नोट को हटाना चाहते हैं?")) {
+              db.notes = db.notes.filter(n => n.id !== id);
+              localStorage.setItem("samuh_master_local_db", JSON.stringify(db));
+              renderMeetingNotes();
+          }
+      }
+
+      function renderMeetingNotes() {
+          let container = document.getElementById("notesContainer");
+          if(!container) return;
+          container.innerHTML = "";
+
+          if(!db.notes || db.notes.length === 0) {
+              container.innerHTML = `<p style="color:#666; font-size:13px;">कोई बैठक नोट्स दर्ज नहीं हैं।</p>`;
+              return;
+          }
+
+          let sortedNotes = [...db.notes].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          sortedNotes.forEach(n => {
+              container.innerHTML += `<div class="passbook-card">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                      <b style="color:var(--primary);">📅 तारीख: ${n.date}</b>
+                      <button class="del-sm-btn" onclick="deleteMeetingNote(${n.id})">हटाएं</button>
+                  </div>
+                  <p style="margin:0; font-size:13.5px; white-space: pre-wrap;">${n.text}</p>
+              </div>`;
+          });
+      }
+
+      function generateReport() {
+          let totalSavSum = 0;
+          let totalLoanSum = 0;
+          let totalIntSum = 0;
+
+          db.savings.forEach(s => {
+              s.entries.forEach(e => { totalSavSum += e.amt; });
+          });
+
+          if(db.incomes) {
+              db.incomes.forEach(inc => { totalIntSum += inc.amt; });
+          }
+          db.loans.forEach(l => {
+              totalIntSum += (l.interest || 0);
+          });
+
+          let tbody = document.getElementById("reportTableBody");
+          if(!tbody) return;
+          tbody.innerHTML = "";
+
+          members.forEach((name, i) => {
+              let memberSav = 0;
+              db.savings.forEach(s => {
+                  let found = s.entries.find(e => e.name === name);
+                  if(found) memberSav += found.amt;
+              });
+
+              let memberL = db.loans.filter(l => l.name === name);
+              let taken = memberL.reduce((sum, l) => sum + l.taken, 0);
+              let paid = memberL.reduce((sum, l) => sum + l.paid, 0);
+              let memberInt = memberL.reduce((sum, l) => sum + (l.interest || 0), 0);
+
+              let balLoan = Math.max(0, taken - paid);
+              totalLoanSum += balLoan;
+
+              tbody.innerHTML += `<tr>
+                  <td>${i + 1}</td>
+                  <td><b>${name}</b></td>
+                  <td>₹${memberSav}</td>
+                  <td style="color:red; font-weight:bold;">₹${balLoan}</td>
+                  <td style="color:green; font-weight:bold;">₹${memberInt}</td>
+              </tr>`;
+          });
+
+          let totalGroupFund = totalSavSum + totalIntSum;
+          let totalAvailableFund = totalGroupFund - totalLoanSum;
+
+          document.getElementById("repTotalSavings").innerText = "₹" + totalSavSum;
+          document.getElementById("repTotalLoan").innerText = "₹" + totalLoanSum;
+          document.getElementById("repTotalInterest").innerText = "₹" + totalIntSum;
+          document.getElementById("repTotalFund").innerText = "₹" + totalGroupFund;
+          document.getElementById("repAvailableFund").innerText = "₹" + totalAvailableFund;
+      }
+
+      function exportToExcel() {
+          let csv = ["Sr.No,Sadasya Ka Naam,Kul Jama Bachat,Baki Loan,Kul Diya Gaya Byaz"];
+          let totalSavSum = 0, totalLoanSum = 0, totalIntSum = 0;
+
+          members.forEach((name, i) => {
+              let memberSav = 0;
+              db.savings.forEach(s => {
+                  let found = s.entries.find(e => e.name === name);
+                  if(found) memberSav += found.amt;
+              });
+
+              let memberL = db.loans.filter(l => l.name === name);
+              let taken = memberL.reduce((sum, l) => sum + l.taken, 0);
+              let paid = memberL.reduce((sum, l) => sum + l.paid, 0);
+              let memberInt = memberL.reduce((sum, l) => sum + (l.interest || 0), 0);
+              let balLoan = Math.max(0, taken - paid);
+
+              totalSavSum += memberSav;
+              totalLoanSum += balLoan;
+              totalIntSum += memberInt;
+
+              csv.push(`${i+1},"${name}",${memberSav},${balLoan},${memberInt}`);
+          });
+
+          csv.push(`\nTotal,,${totalSavSum},${totalLoanSum},${totalIntSum}`);
+
+          let blob = new Blob(["\uFEFF" + csv.join("\n")], { type: 'text/csv;charset=utf-8;' });
+          let link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "Samuh_Financial_Report.csv";
+          link.click();
+      }
+
+      initSavingsUI();
+</script>
+</body>
+</html>
